@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-const { MONGO_URI } = process.env;
+const { MONGO_URI, DATABASE_NAME } = process.env;
 const client = new MongoClient(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -15,7 +15,7 @@ module.exports = {
         return callback(err);
       }
 
-      dbConnection = db.db("finalproject");
+      dbConnection = db.db(DATABASE_NAME);
       console.log("Successfully connected to MongoDB.");
 
       return callback();

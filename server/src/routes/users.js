@@ -6,7 +6,7 @@ const db = require("../db");
 
 // here we create a new user during signup
 userRoutes.route("/users").post(async function (_req, res) {
-  const dbConnect = db.getDb();
+  const dbClient = db.getDb();
 
   const createPayload = {
     username: req.body.username,
@@ -14,7 +14,7 @@ userRoutes.route("/users").post(async function (_req, res) {
   };
 
   try {
-    const createdUser = await dbConnect
+    const createdUser = await dbClient
       .collection("users")
       .insertOne(createPayload);
   } catch (err) {
@@ -33,10 +33,10 @@ userRoutes.route("/users").post(async function (_req, res) {
 
 // get one user
 userRoutes.route("/users/:id").get(async function (req, res) {
-  const dbConnect = db.getDb();
+  const dbClient = db.getDb();
 
   try {
-    const user = await dbConnect
+    const user = await dbClient
       .collection("users")
       .findOne({ _id: req.params.id });
 
