@@ -4,33 +4,6 @@ const userRoutes = express.Router();
 
 const db = require("../db");
 
-// here we create a new user during signup
-userRoutes.route("/users").post(async function (_req, res) {
-  const dbClient = db.getDb();
-
-  const createPayload = {
-    username: req.body.username,
-    password: req.body.password,
-  };
-
-  try {
-    const createdUser = await dbClient
-      .collection("users")
-      .insertOne(createPayload);
-  } catch (err) {
-    res.status(500).json({
-      status: 500,
-      message: "Something bad happened :(",
-    });
-    return;
-  }
-
-  res.status(200).json({
-    status: 200,
-    data: createdUser,
-  });
-});
-
 // get one user
 userRoutes.route("/users/:id").get(async function (req, res) {
   const dbClient = db.getDb();

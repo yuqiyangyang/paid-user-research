@@ -33,7 +33,7 @@ const Create = styled(Link)`
   justify-content: center;
 `;
 
-const SignUp = styled(Link)`
+const StyledLink = styled(Link)`
   text-decoration: none;
   color: #f0e2e2;
   font-weight: bold;
@@ -47,18 +47,26 @@ const Profile = styled(Link)`
   padding: 0 1rem;
 `;
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated }) => {
   return (
     <Container>
       <Logo to="/">
         <FaCommentDollar size={24} /> Paid UserResearch
       </Logo>
       <PullRight>
-        <Create to="/create">Create Post</Create>
-        <SignUp to="/signup">Sign Up</SignUp>
-        <Profile to="/profile">
-          <FaRegUser size={20} color="#F0E2E2" />
-        </Profile>
+        {isAuthenticated ? (
+          <>
+            <Create to="/create">Create Post</Create>
+            <Profile to="/profile">
+              <FaRegUser size={20} color="#F0E2E2" />
+            </Profile>
+          </>
+        ) : (
+          <>
+            <StyledLink to="/signup">Sign Up</StyledLink>
+            <StyledLink to="/login">Login</StyledLink>
+          </>
+        )}
       </PullRight>
     </Container>
   );

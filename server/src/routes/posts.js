@@ -1,4 +1,5 @@
 const express = require("express");
+const { ObjectId } = require("mongodb");
 
 const postsRoutes = express.Router();
 
@@ -8,12 +9,9 @@ const db = require("../db");
 postsRoutes.route("/posts").get(async function (_req, res) {
   const dbClient = db.getDb();
 
+  let posts = [];
   try {
-    const posts = await dbClient
-      .collection("posts")
-      .find({})
-      .limit(50)
-      .toArray();
+    posts = await dbClient.collection("posts").find({}).limit(50).toArray();
 
     if (!posts) {
       res.status(404).json({
@@ -40,10 +38,11 @@ postsRoutes.route("/posts").get(async function (_req, res) {
 postsRoutes.route("/posts/:id").get(async function (req, res) {
   const dbClient = db.getDb();
 
+  let post;
   try {
-    const post = await dbClient
+    post = await dbClient
       .collection("posts")
-      .findOne({ _id: req.params.id });
+      .findOne({ _id: ObjectId(req.params.id) });
 
     if (!post) {
       res.status(404).json({
@@ -70,20 +69,33 @@ postsRoutes.route("/posts/:id").get(async function (req, res) {
 postsRoutes.route("/posts/:id/join").post(async function (req, res) {
   const dbClient = db.getDb();
 
-  try {
-    const post = await dbClient
-      .collection("posts")
-      .findOne({ _id: req.params.id });
+  const { userId } = req.body;
+  if (!userId) {
+    res.status(400).json({
+      status: 400,
+      message: "Missing user id",
+    });
+    return;
+  }
 
-    if (!post) {
+  let post;
+  try {
+    post = await dbClient.collection("posts").update(
+      { _id: ObjectId(req.params.id) },
+      {
+        $push: {
+          candidates: req.body.userId,
+        },
+      }
+    );
+
+    if (!post.matchedCount) {
       res.status(404).json({
         status: 404,
         message: "No post found",
       });
       return;
     }
-
-    // Do join logic here
   } catch (err) {
     res.status(500).json({
       status: 500,
@@ -94,23 +106,37 @@ postsRoutes.route("/posts/:id/join").post(async function (req, res) {
 
   res.status(200).json({
     status: 200,
-    data: posts,
+    data: {
+      udpated: post.modifiedCount > 0,
+    },
   });
 });
 
 // create a post here
 postsRoutes.route("/posts").post(async function (req, res) {
   const dbClient = db.getDb();
+  const { title, description, price, date, imgSrc } = req.body;
+  if (!title || !description || !price) {
+    res.status(400).json({
+      status: 400,
+      message: "Missing an important parameter",
+    });
+    return;
+  }
 
   const createPayload = {
-    title: req.body.title,
-    description: req.body.description,
+    title,
+    description,
+    price,
+    date,
+    imgSrc,
   };
 
+  let newPostId;
   try {
-    const createdPost = await dbClient
+    ({ insertedId: newPostId } = await dbClient
       .collection("posts")
-      .insertOne(createPayload);
+      .insertOne(createPayload));
   } catch (err) {
     res.status(500).json({
       status: 500,
@@ -121,21 +147,21 @@ postsRoutes.route("/posts").post(async function (req, res) {
 
   res.status(200).json({
     status: 200,
-    data: createdPost,
+    data: { _id: newPostId },
   });
 });
 
 // edit a post
 postsRoutes.route("/posts/:id").put(async function (req, res) {
   const dbClient = db.getDb();
-
   const editPayload = {
     title: req.body.title,
     description: req.body.description,
   };
 
+  let editedPost;
   try {
-    const editedPost = await dbClient
+    editedPost = await dbClient
       .collection("posts")
       .updateById(req.params.id, editPayload);
 

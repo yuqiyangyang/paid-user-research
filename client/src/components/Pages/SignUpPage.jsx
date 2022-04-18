@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useLocalStorage } from "../../hooks";
+import * as Api from "../../api";
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +26,7 @@ const Input = styled.input`
   margin-bottom: 1rem;
 `;
 
-const Submit = styled.input`
+const Submit = styled.button`
   border: none;
   display: flex;
   justify-content: center;
@@ -44,20 +49,39 @@ const Gif = styled.img`
 `;
 
 const SignUpPage = () => {
+  const [, setPersistedProfile] = useLocalStorage("profile");
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const profile = await Api.signupUser({
+      email: event.target.email.value,
+      password: event.target.password.value,
+      name: event.target.name.value,
+    });
+
+    if (profile) {
+      setPersistedProfile(profile);
+      navigate("/");
+      navigate(0);
+    }
+  }
+
   return (
     <Container>
       <Gif src="https://media2.giphy.com/media/l41YouCUUcreUabHW/200w.webp?cid=ecf05e47w4p73wnugqpjh5n2w341rbwdjma8rmpqiombgnkj&rid=200w.webp&ct=g" />
-      <Form>
-        <Input type="text" id="email" name="email" placeholder="Email" />
+      <Form onSubmit={handleSubmit}>
+        <Input type="email" id="email" name="email" placeholder="Email" />
 
         <Input type="text" id="name" name="name" placeholder="Your name" />
         <Input
-          type="text"
+          type="password"
           id="password"
           name="password"
           placeholder="Password"
         />
-        <Submit type="submit" value="Sign Up" />
+        <Submit type="submit">Signup</Submit>
       </Form>
     </Container>
   );

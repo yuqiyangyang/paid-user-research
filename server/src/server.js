@@ -3,18 +3,22 @@
 require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 const morgan = require("morgan");
 
 const db = require("./db");
 
 const app = express()
   .use(morgan("tiny"))
+  .use(cors())
   // .use(express.static("client/public"))
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
   // .use("/", express.static(__dirname + "/"))
 
   .use(require("./routes/users"))
+  .use(require("./routes/login"))
+  .use(require("./routes/posts"))
 
   .use((req, res) => res.status(404).type("txt").send("🤷‍♂️"))
   .use(function (err, _req, res) {

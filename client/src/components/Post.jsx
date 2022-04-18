@@ -38,12 +38,12 @@ const Incentive = styled.div`
   overflow: hidden;
 `;
 
-const Post = ({ id, price, name, imgSrc }) => {
+const Post = ({ post }) => {
   return (
-    <PostCard to={`/post/${id}`}>
-      <PostImg src={imgSrc} />
-      <PostTitle>{name}</PostTitle>
-      <Incentive>{price}</Incentive>
+    <PostCard to={`/post/${post._id}`}>
+      <PostImg src={post.imgSrc} />
+      <PostTitle>{post.title}</PostTitle>
+      <Incentive>{post.price}</Incentive>
     </PostCard>
   );
 };
