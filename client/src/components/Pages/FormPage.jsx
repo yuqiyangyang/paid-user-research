@@ -61,13 +61,13 @@ const CheckThemeImg = styled.span`
   border-radius: 50%;
   overflow: hidden;
   display: flex;
-  background: var(--white);
+  background: white;
   position: absolute;
   right: 0.3rem;
   bottom: 0.3rem;
   box-shadow: 0 10px 20px 0 rgba(15, 14, 14, 0.1);
-  background-color: var(--white);
-  color: var(--success);
+  background-color: white;
+  color: green;
 `;
 
 const ThemeContainer = styled.div`
@@ -83,6 +83,7 @@ const ThemeImgItem = styled.div`
   background-position: center;
   height: ${(props) => props.height || "6rem"};
   ${(props) => props.width && `width: ${props.width}`}
+  margin-top: 8px;
 `;
 
 const FormPage = () => {
@@ -140,7 +141,7 @@ const FormPage = () => {
           type="text"
           id="title"
           name="title"
-          placeholder="Research Title"
+          placeholder="UserResearch Title"
         />
         <Input
           type="text"
@@ -156,7 +157,7 @@ const FormPage = () => {
           name="imgSrc"
           size="500"
           onChange={(e) => setUnsplashQuery(e.target.value)}
-          placeholder="post image url"
+          placeholder="Search for Unsplash image"
         />
         {isSearching ? (
           <span>Loading...</span>

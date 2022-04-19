@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const PostCard = styled(Link)`
   color: black;
   text-decoration: none;
-  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  padding: 0.5rem 0 1rem 0;
   min-width: 200px;
   display: flex;
   flex-direction: column;
@@ -25,10 +25,11 @@ const PostTitle = styled.div`
   height: 1rem;
   text-align: center;
   overflow: hidden;
+  padding: 0 0.5rem;
 `;
 const PostImg = styled.img`
-  height: 100px;
-  width: 200px;
+  height: 8rem;
+  width: 100%;
   object-fit: cover;
 `;
 const Incentive = styled.div`

@@ -10,15 +10,21 @@ const Container = styled.div`
   align-items: center;
   padding: 2rem;
 `;
+
+const Gif = styled.img`
+  height: 400px;
+  background-size: cover;
+`;
+
 const LogoutBtn = styled.button`
   border: none;
   display: flex;
   justify-content: center;
   background-color: #d64615;
   color: white;
-  padding: 1rem 2rem;
-  color: white;
+  padding: 1rem 4rem;
   margin: 0.5rem 0;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   &:hover {
@@ -38,10 +44,8 @@ const ProfilePage = () => {
 
   return (
     <Container>
-      <h1>
-        🎊 Hi, Username, here is all the paid research that you created or
-        joined
-      </h1>
+      <Gif src="https://media4.giphy.com/media/26u4lOMA8JKSnL9Uk/200.webp?cid=ecf05e47jfc9zz7vjglu6klaq03gmw47svrkb8wmwlncta42&rid=200.webp&ct=g" />
+      <h1>I am so done!</h1>
       <LogoutBtn onClick={handleLogout}>Log out</LogoutBtn>
     </Container>
   );

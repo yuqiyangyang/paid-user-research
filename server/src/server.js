@@ -11,10 +11,8 @@ const db = require("./db");
 const app = express()
   .use(morgan("tiny"))
   .use(cors())
-  // .use(express.static("client/public"))
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
-  // .use("/", express.static(__dirname + "/"))
 
   .use(require("./routes/users"))
   .use(require("./routes/login"))
@@ -34,7 +32,6 @@ db.connectToServer(function (err) {
     process.exit();
   }
 
-  // start the Express server
   app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
   });

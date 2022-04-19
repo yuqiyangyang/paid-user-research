@@ -22,8 +22,9 @@ loginRoutes.route("/signup").post(async function (req, res) {
     name,
   };
 
+  let newUser;
   try {
-    await dbClient.collection("users").insertOne(createPayload);
+    newUser = await dbClient.collection("users").insertOne(createPayload);
   } catch (err) {
     res.status(500).json({
       status: 500,
@@ -36,6 +37,8 @@ loginRoutes.route("/signup").post(async function (req, res) {
     status: 200,
     data: {
       email: createPayload.email,
+      name: createPayload.name,
+      _id: newUser.insertedId,
       isAuthenticated: true,
     },
   });

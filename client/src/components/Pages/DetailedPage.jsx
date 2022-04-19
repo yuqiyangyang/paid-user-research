@@ -24,7 +24,9 @@ const PostTitle = styled.div`
 `;
 
 const PostDescription = styled.div`
-  font-size: 1.3rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-style: italic;
 `;
 
 const Time = styled.div`
@@ -32,13 +34,13 @@ const Time = styled.div`
 `;
 
 const Incentive = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   font-size: 1rem;
   color: #4caf50;
 `;
 
 const PostImg = styled.img`
-  width: 60%;
+  max-width: 60%;
 `;
 
 const CTA = styled.button`
@@ -46,14 +48,14 @@ const CTA = styled.button`
   font-weight: bold;
   font-size: 1.1rem;
   justify-content: center;
-  width: 100px;
   background-color: #d64615;
+  border-radius: 4px;
   color: white;
-  padding: 1rem 3rem;
-  color: white;
+  padding: 1rem 5rem;
   margin: 0.5rem 0;
   font-weight: bold;
   cursor: pointer;
+  border: none;
   &:hover {
     opacity: 0.8;
   }
@@ -109,13 +111,12 @@ const DetailedPage = () => {
       <PostImg src={post.imgSrc} />
       <PostInfo>
         <Time>{formatDate(post.date)} </Time>
-        <Time>Duration: 30min</Time>
         <PostTitle>{post.title}</PostTitle>
         <PostDescription>{post.description}</PostDescription>
 
         <Incentive>Incentive: {post.price}</Incentive>
         {hasJoined ? (
-          <CTA disabled>Pending</CTA>
+          <CTA disabled>Joined!</CTA>
         ) : (
           <CTA disabled={submitting} onClick={handleJoinPost}>
             Join

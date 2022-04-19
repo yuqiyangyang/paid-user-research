@@ -8,10 +8,9 @@ const db = require("../db");
 userRoutes.route("/users/:id").get(async function (req, res) {
   const dbClient = db.getDb();
 
+  let user;
   try {
-    const user = await dbClient
-      .collection("users")
-      .findOne({ _id: req.params.id });
+    user = await dbClient.collection("users").findOne({ _id: req.params.id });
 
     if (!user) {
       res.status(404).json({
