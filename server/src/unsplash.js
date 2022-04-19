@@ -12,7 +12,7 @@ async function searchPhotos(query) {
   const resp = await unsplashClient.search.getPhotos({
     query,
     page: 1,
-    perPage: 12,
+    perPage: 6,
   });
 
   return resp?.response?.results.map((r) => r.urls.regular);
