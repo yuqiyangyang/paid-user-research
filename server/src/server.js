@@ -19,6 +19,7 @@ const app = express()
   .use(require("./routes/users"))
   .use(require("./routes/login"))
   .use(require("./routes/posts"))
+  .use(require("./routes/photos"))
 
   .use((req, res) => res.status(404).type("txt").send("🤷‍♂️"))
   .use(function (err, _req, res) {

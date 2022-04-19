@@ -89,3 +89,17 @@ export async function joinPost(postId, userId) {
     }
   }
 }
+
+export async function searchPhotos(queryString) {
+  try {
+    const { data: resp } = await axios.get(
+      `http://localhost:8000/photos/search?q=${queryString}`
+    );
+    return resp.data;
+  } catch (err) {
+    console.error(err);
+    if (err.response) {
+      throw err.response.data;
+    }
+  }
+}

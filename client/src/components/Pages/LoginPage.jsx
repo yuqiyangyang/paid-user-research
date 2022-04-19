@@ -91,7 +91,9 @@ const LoginPage = () => {
           name="password"
           placeholder="Password"
         />
-        <Submit type="submit">Login</Submit>
+        <Submit disabled={submitting} type="submit">
+          Login
+        </Submit>
         {error && <Alert>{error.message}</Alert>}
       </Form>
     </Container>

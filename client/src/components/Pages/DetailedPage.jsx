@@ -72,7 +72,7 @@ const DetailedPage = () => {
     }
 
     fetchPost();
-  }, []);
+  }, [params.id]);
 
   function formatDate(date) {
     var options = {
